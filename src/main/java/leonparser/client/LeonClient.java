@@ -1,5 +1,7 @@
 package leonparser.client;
 
+import leonparser.exception.LeonClientException;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,16 +22,17 @@ public class LeonClient {
                     .GET()
                     .build();
         } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+            throw new LeonClientException("Invalid URL: " + url, e);
         }
 
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new LeonClientException("I/O error while calling: " + url, e);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            Thread.currentThread().interrupt();
+            throw new LeonClientException("Request interrupted: " + url, e);
         }
 
         return response.body();

@@ -1,20 +1,18 @@
-package leonparser.model;
+package leonparser.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Match {
-    String name;
-    LocalDateTime time;
-    long id;
-    List<Market> markets;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class MatchWrapperDto {
+    private List<MatchDto> data;
 }

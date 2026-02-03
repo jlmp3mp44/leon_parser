@@ -1,9 +1,8 @@
 package leonparser.executor;
 
 import leonparser.client.LeonClient;
-import leonparser.dto.MatchDTO;
-import leonparser.model.Match;
-import leonparser.model.Market;
+import leonparser.dto.MarketDto;
+import leonparser.dto.MatchDto;
 
 import java.util.List;
 
@@ -11,9 +10,9 @@ import static leonparser.config.LeonConfig.MARKETS_URL;
 
 public class MarketParseTask implements Runnable {
     private final LeonClient client;
-    private final Match match;
+    private final MatchDto match;
 
-    public MarketParseTask(LeonClient client, Match match) {
+    public MarketParseTask(LeonClient client, MatchDto match) {
         this.client = client;
         this.match = match;
     }
@@ -24,7 +23,7 @@ public class MarketParseTask implements Runnable {
             String marketsJson = client.sendRequestGetJson(
                     String.format(MARKETS_URL, match.getId())
             );
-            List<Market> markets = MatchDTO.fromJson(marketsJson);
+            List<MarketDto> markets = MarketDto.fromJsonToDto(marketsJson);
             match.setMarkets(markets);
         } catch (Exception e) {
             System.err.println("Failed to parse markets for match: " + match.getName());

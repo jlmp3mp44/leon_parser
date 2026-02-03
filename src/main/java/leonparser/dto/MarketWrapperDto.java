@@ -1,20 +1,17 @@
-package leonparser.model;
+package leonparser.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.List;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Region {
-    public String name;
-    public List<League> leagues;
+public class MarketWrapperDto {
+    private List<MarketDto> markets;
 }
-

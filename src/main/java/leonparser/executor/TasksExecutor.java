@@ -1,21 +1,17 @@
 package leonparser.executor;
 
 import leonparser.client.LeonClient;
-import leonparser.model.League;
-
+import leonparser.dto.LeagueDto;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import static leonparser.config.LeonConfig.EXECUTOR;
 
-public class MatchExecutor {
+public class TasksExecutor {
 
-    public void submitMatches(List<League> leagues, LeonClient client) {
+    public void submitMatches(List<LeagueDto> leagues, LeonClient client) {
         CountDownLatch latch = new CountDownLatch(leagues.size());
-        for (League league : leagues) {
+        for (LeagueDto league : leagues) {
             EXECUTOR.submit(new MatchParseTask(client, league, latch));
         }
         try {

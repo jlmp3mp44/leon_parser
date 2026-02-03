@@ -1,7 +1,6 @@
-package leonparser.responces;
+package leonparser.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import leonparser.model.Match;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MatchResponse {
-    private List<Match> data;
+public class RegionDto {
+    public String name;
+    public List<LeagueDto> leagues;
 }
 
