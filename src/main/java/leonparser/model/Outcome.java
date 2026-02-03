@@ -9,6 +9,6 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Outcome {
     private String name;
-    private double coefficient;
+    private double price;
     private long id;
 }

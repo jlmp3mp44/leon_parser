@@ -3,6 +3,7 @@ package leonparser;
 import leonparser.client.LeonClient;
 import leonparser.config.LeonConfig;
 import leonparser.model.League;
+import leonparser.model.Market;
 import leonparser.model.Match;
 import leonparser.model.Sport;
 import leonparser.parser.LeonParser;
@@ -24,6 +25,9 @@ public class Main {
                 if (league.getMatches() != null) {
                     for (Match match : league.getMatches()) {
                         System.out.println("    Match: " + match.getName());
+                        for(Market market : match.getMarkets()) {
+                            System.out.println("    Market: " + market.getName());
+                        }
                     }
                 }
             }

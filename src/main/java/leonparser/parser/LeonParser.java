@@ -21,7 +21,7 @@ public class LeonParser {
 
     public LeonParser() {
         this.client = new LeonClient();
-        this.executor = new MatchExecutor(LeonConfig.THREADS_NUMBER);
+        this.executor = new MatchExecutor();
     }
 
     public List<Sport> getSports() {

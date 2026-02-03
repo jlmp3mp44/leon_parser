@@ -5,17 +5,21 @@ import leonparser.model.League;
 import leonparser.model.Match;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
+import static leonparser.config.LeonConfig.EXECUTOR;
 import static leonparser.config.LeonConfig.MATCHES_URL;
 
 public class MatchParseTask implements Runnable{
 
     LeonClient client;
     League league;
+    CountDownLatch latch;
 
-    public MatchParseTask(LeonClient client, League league) {
+    public MatchParseTask(LeonClient client, League league, CountDownLatch latch) {
         this.client = client;
         this.league = league;
+        this.latch = latch;
     }
 
     @Override
@@ -29,18 +33,16 @@ public class MatchParseTask implements Runnable{
             if (matches.size() > 2) matches = matches.subList(0, 2);
             league.setMatches(matches);
 
-           /* // 3. Для кожного матчу можна отримати All Markets
             for (Match match : matches) {
-                String marketsJson = client.sendRequestGetJson(
-                        "https://leonbets.com/api-2/betline/markets?matchId=" + match.getId()
-                );
-                List<Market> markets = Market.fromJsonToModel(marketsJson);
-                match.setMarkets(markets);
-            }*/
+                EXECUTOR.submit(new MarketParseTask(client, match));
+            }
 
         } catch (Exception e) {
             System.err.println("Failed to parse matches of league: " + league.getName());
             e.printStackTrace();
+        }
+        finally {
+            latch.countDown();
         }
     }
 

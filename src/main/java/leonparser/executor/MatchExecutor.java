@@ -4,26 +4,26 @@ import leonparser.client.LeonClient;
 import leonparser.model.League;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class MatchExecutor {
-    private final ExecutorService executor;
+import static leonparser.config.LeonConfig.EXECUTOR;
 
-    public MatchExecutor(int threads) {
-        this.executor = Executors.newFixedThreadPool(threads);
-    }
+public class MatchExecutor {
 
     public void submitMatches(List<League> leagues, LeonClient client) {
+        CountDownLatch latch = new CountDownLatch(leagues.size());
         for (League league : leagues) {
-            executor.submit(new MatchParseTask(client, league));
+            EXECUTOR.submit(new MatchParseTask(client, league, latch));
         }
-        executor.shutdown();
         try {
-            executor.awaitTermination(10, TimeUnit.MINUTES);
+            latch.await();
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            Thread.currentThread().interrupt();
         }
+
+        EXECUTOR.shutdown();
     }
 }

@@ -21,6 +21,7 @@ public class Match {
     String name;
     long kickoff;
     long id;
+    List<Market> markets;
 
     public static List<Match> fromJsonToModel(String json) {
         try {
