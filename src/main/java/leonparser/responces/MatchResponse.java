@@ -1,22 +1,20 @@
-package leonparser.model;
+package leonparser.responces;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import leonparser.model.Match;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.concurrent.RecursiveTask;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class League {
-    long id;
-    String name;
-    boolean top;
-    List<Match> matches;
+public class MatchResponse {
+    private List<Match> data;
 }
+

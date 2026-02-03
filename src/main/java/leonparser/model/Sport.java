@@ -22,7 +22,7 @@ public class Sport {
 
     public static List<Sport> fromJsonToModel(String json) {
         try {
-            return LeonConfig.getObjectMapper()
+            return LeonConfig.OBJECT_MAPPER
                     .readValue(json, new TypeReference<List<Sport>>() {});
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to parse sports json", e);

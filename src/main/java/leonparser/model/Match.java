@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import leonparser.config.LeonConfig;
+import leonparser.responces.MatchResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,10 +24,12 @@ public class Match {
 
     public static List<Match> fromJsonToModel(String json) {
         try {
-            return LeonConfig.getObjectMapper()
-                    .readValue(json, new TypeReference<List<Match>>() {});
+            MatchResponse response = LeonConfig.OBJECT_MAPPER
+                    .readValue(json, MatchResponse.class);
+            return response.getData();
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to parse matches json", e);
         }
     }
+
 }
